@@ -13,5 +13,6 @@ namespace TheLostFortress
         public int w;
         public int e;
         public string name;
+        public string description;
     }
 }
