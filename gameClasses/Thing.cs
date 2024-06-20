@@ -11,10 +11,10 @@ namespace TheLostFortress.gameClasses
         private string _name;
         private string _description;
 
-        public Thing(string name, string descriprion)
+        public Thing(string aName, string aDescriprion)
         {
-            _name = name;
-            _description = descriprion;
+            _name = aName;
+            _description = aDescriprion;
         }
 
         public string Name // Name property

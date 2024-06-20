@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TheLostFortress.gameClasses
 {
     public class Room : Thing
-    {
-        public int _n;
-        public int _s;
-        public int _w;
-        public int _e;
-
-        public Room(string aName, string aDescription, int aN, int aS, int aW, int aE)
+    { 
+        private Rm _n, _s, _w, _e;
+    
+        public Room(string aName, string aDescription, Rm aN, Rm aS, Rm aW, Rm aE)
         : base(aName, aDescription)
         {
             _n = aN;
@@ -21,25 +19,30 @@ namespace TheLostFortress.gameClasses
             _w = aW;
             _e = aE;
         }
-        public int N
+        public Rm N
         {
             get => _n;
             set => _n = value;
         }
-        public int S
+        public Rm S
         {
             get => _s;
             set => _s = value;
         }
-        public int W
+        public Rm W
         {
             get => _w;
             set => _w = value;
         }
-        public int E
+        public Rm E
         {
             get => _e;
             set => _e = value;
+        }
+        
+        public string Describe() 
+        {
+        return $"[{Name}] This is {Description}";
         }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,7 +28,7 @@ namespace TheLostFortress
             Room room2;
             Room room3;
 
-            Room[] map;
+            private RoomList _map;
 
             private Player _player;
 
@@ -48,29 +49,29 @@ namespace TheLostFortress
                 "chamber where the air is thick with spores and magic. Bioluminescent fungi cast an ethereal glow, illuminating " +
                 "the path forward. Giant toadstools tower like ancient trees, their caps large enough to provide shelter or a makeshift platform." +
                 " The air hums with the whispers of the forest, and every step stirs up a cloud of glittering dust. Here, adventurers must tread carefully," +
-                " for the mushrooms are not what they seem—some hold healing powers, while others harbor perilous traps.", -1, 2, -1, 1);
+                " for the mushrooms are not what they seem—some hold healing powers, while others harbor perilous traps.", Rm.NOEXIT, Rm.Cave, Rm.NOEXIT, Rm.Forest);
             room1 = new Room("Forest", "Nestled within the confines of the maze’s stone walls, the Forest Room is an unexpected oasis of greenery." +
                 " Moss and ivy climb the cold dungeon bricks, softening their harshness. Ancient trees stretch their limbs across the room," +
                 " their leaves whispering secrets of the maze. The air is fresh with the scent of pine and earth, " +
                 "a stark contrast to the musty corridors outside. Sunlight filters in through unseen crevices, dappling the ground with patches of light" +
-                ". In this serene woodland glade, hidden within an action-packed labyrinth, player must stay vigilant for both hidden dangers and hidden treasures.", -1, -1, 0, -1);
+                ". In this serene woodland glade, hidden within an action-packed labyrinth, player must stay vigilant for both hidden dangers and hidden treasures.", Rm.NOEXIT, Rm.NOEXIT, Rm.MuschroomRoom, Rm.NOEXIT);
             room2 = new Room("Cave", "The Cave Room, a cavernous expanse within the maze, echoes with the drip of ancient groundwater." +
                 " Stalactites and stalagmites jut out like jagged teeth, creating natural barriers and hiding spots. The air is cool and damp," +
                 " carrying the scent of mineral-rich stone and the faintest hint of something ancient and dormant. Echoes betray the size of the chamber," +
                 " suggesting it stretches far beyond the torchlight. Here, in the bowels of the earth, players must navigate with care," +
-                " as shadows may conceal lurking creatures or the glint of precious gems embedded in the walls. ", 0, -1, -1, 3);
+                " as shadows may conceal lurking creatures or the glint of precious gems embedded in the walls. ", Rm.MuschroomRoom, Rm.NOEXIT, Rm.NOEXIT, Rm.Dungeon);
             room3 = new Room("Dungeon", "The Dungeon Room is a grim chamber of echoing stone and iron. Torches flicker along the walls," +
                 " casting long shadows that dance with the movement of chains. The air is heavy with the scent of rust and the faint," +
                 " lingering traces of battles past. The clank of metal and the scrape of stone underfoot serve as a constant reminder of the perilous journey ahead." +
                 " In this room, remnants of ancient warriors’ armor and weapons hint at the challenges that lie in wait, " +
-                "daring adventurers to press on and discover the secrets that the dungeon keeps. ", -1, -1, 2, -1);
+                "daring adventurers to press on and discover the secrets that the dungeon keeps. ", Rm.NOEXIT, Rm.NOEXIT, Rm.Cave, Rm.NOEXIT);
 
-            map = new Room[4];
+            _map = new RoomList();
 
-            map[0] = room0;
-            map[1] = room1;
-            map[2] = room2;
-            map[3] = room3;
+            _map.Add(Rm.MuschroomRoom, room0);
+            _map.Add(Rm.Forest, room1);
+            _map.Add(Rm.Cave, room2);
+            _map.Add(Rm.Dungeon, room3);
 
             _player = new Player ("You","The Player" , room0);
 
@@ -90,15 +91,15 @@ namespace TheLostFortress
 
         }
 
-    private void MovePlayer(int newpos)
+    private void MovePlayer(Rm newpos)
     {
-        if (newpos == -1)
+        if (newpos == Rm.NOEXIT)
         {
             outputTB.Text = "There is no exit in this direction\n";
         }
                 else
             {
-                _player.Location = map[newpos];
+                _player.Location = _map.RoomAt(newpos);
                 outputTB.Text = $"You are now in the {_player.Location.Name}\r\n";
             }
         
@@ -106,22 +107,22 @@ namespace TheLostFortress
 
         private void NBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(_player.Location._n);
+            MovePlayer(_player.Location.N);
         }
 
         private void SBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(_player.Location._s);
+            MovePlayer(_player.Location.S);
         }
 
         private void EBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(_player.Location._e);
+            MovePlayer(_player.Location.E);
         }
 
         private void WBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(_player.Location._w);
+            MovePlayer(_player.Location.W);
         }
     }
 }
