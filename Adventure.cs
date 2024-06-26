@@ -56,16 +56,52 @@ namespace TheLostFortress
         {
             get => _player;
         }
-        public string MovePlayerTo(Rm newpos)
+
+        private void MovePlayerTo(Player aPlayer, Room aRoom)
+        {
+            aPlayer.Location = aRoom;
+        }
+
+        private Rm MoveTo(Player aPlayer, Dir direction)
+        {
+            Room r = aPlayer.Location;
+            Rm exit;
+
+            switch (direction)
+            {
+                case Dir.NORTH:
+                    exit = r.N;
+                    break;
+                case Dir.SOUTH:
+                    exit = r.S;
+                    break;
+                case Dir.WEST:
+                    exit = r.W;
+                    break;
+                case Dir.EAST:
+                    exit = r.E;
+                    break;
+                default:
+                    exit = Rm.NOEXIT;
+                    break;
+            }
+            if (exit != Rm.NOEXIT)
+            {
+                MovePlayerTo(aPlayer, _map.RoomAt(exit));
+            }
+            return exit;
+        }
+
+
+        public string MovePlayerTo(Dir direction)
         {
             string s;
-            if (newpos == Rm.NOEXIT)
+            if (MoveTo(_player, direction) == Rm.NOEXIT)
             {
                 s = "There is no exit in this direction\n";
-            }
+            } 
             else
             {
-                _player.Location = _map.RoomAt(newpos);
                 s = $"You are now in the {_player.Location.Name}\n";
             }
             return s;

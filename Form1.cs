@@ -47,29 +47,29 @@ namespace TheLostFortress
 
         }
         
-        private void MovePlayer(Rm newpos)
+        private void MovePlayer(Dir direction)
         {
-            outputTB.Text = adv.MovePlayerTo(newpos);
+            outputTB.Text = adv.MovePlayerTo(direction);
         }
 
         private void NBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(adv.Player.Location.N);
+            MovePlayer(Dir.NORTH);
         }
 
         private void SBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(adv.Player.Location.S);
+            MovePlayer(Dir.SOUTH);
         }
 
         private void EBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(adv.Player.Location.E);
+            MovePlayer(Dir.EAST);
         }
 
         private void WBtn_Click(object sender, EventArgs e)
         {
-            MovePlayer(adv.Player.Location.W);
+            MovePlayer(Dir.WEST);
         }
     }
 }

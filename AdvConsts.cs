@@ -19,4 +19,12 @@ namespace TheLostFortress
         Dungeon,
         NOEXIT,
     }
+
+    public enum Dir
+    {
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST,
+    }
 }
